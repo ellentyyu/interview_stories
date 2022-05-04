@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stories</title>
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css' />
+  <link rel="stylesheet" href="./stylesheets/all.css">
+
+</head>
+<body>
+  <noscript>
+    <strong>We're sorry but Stories doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="app">
+    <div class="container">
+      <div class="swiper-outer-custom">
+        <div class="swiper" ref="swiper" @click="pauseSwiper">
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide bg-cover" v-for="( story, idx ) in storyData" :data-swiper-autoplay="story.duration" :style="`background-image: url(${story.imageUrl});`">
+              <div class="story-text-wrap">
+                <p class="story-text">{{ story.text }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination" ref="pagination"></div>
+        </div>
+        <div class="swiper-button-prev" ref="prev"></div>
+        <div class="swiper-button-next" ref="next" @click="replay"><i v-if="isFini" class="fas fa-redo"></i></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          swiper: {},
+          isStop: false,
+          storyData: [{}], //swiper操控第一張投影片
+          currIndex: 0, 
+          currProgress: 0,
+          currInterval: null,
+          isFini: false,
+        }
+      },
+      methods: {
+        getData() {
+          axios.get('http://localhost:3000/story')
+           .then(res => {
+             this.storyData = [ ...this.storyData, ...res.data];
+             this.initSwiper();
+             this.swiperHandler();
+             this.progressBar(false);
+           })
+           .catch(err => {
+             console.log(err);
+           });
+        },
+        initSwiper() {
+          this.swiper = new Swiper(this.$refs.swiper, {
+            direction: 'horizontal',
+            initialSlide: 0,
+            autoplay:  {
+              disableOnInteraction: false,
+              stopOnLastSlide: true
+            },
+            pagination: {
+              el: this.$refs.pagination,
+              type: 'bullets',
+              renderBullet: function (index, className) {
+                return `<span class="${className}">
+                  <i class="progress-bg"></i><i class="progress-grow"></i>
+                  </span>`;
+              },
+            },
+            navigation: {
+              nextEl: this.$refs.next,
+              prevEl: this.$refs.prev,
+            }
+          });
+        },
+        swiperHandler() {
+          let vm = this;
+          this.swiper.on('reachEnd', function () {
+            vm.isFini = !vm.isFini;
+          });
+          this.swiper.on('slideChange', function () {
+            vm.currIndex = vm.swiper.activeIndex;
+            vm.progressBar(true);
+          });
+        },
+        pauseSwiper() {
+          this.isStop = !this.isStop;
+          if (this.isStop) {
+            this.swiper.autoplay.stop();
+            clearInterval(this.currInterval);
+            this.currInterval = null;
+          }else {
+            this.swiper.autoplay.start();
+            this.progressBar(false);
+          }
+        },
+        replay() {
+          if (!this.isFini) {
+            return;
+          }
+          this.swiper.slideTo(this.swiper.initialSlide, 1000, false);
+          this.swiper.autoplay.start();
+          this.isFini = !this.isFini
+        },
+        progressBar(isNew) {
+          this.swiper.pagination.bullets[0].style.display = "none";
+          if (isNew) {
+            this.currProgress = 0;
+            let prevBar = this.swiper.pagination.bullets[this.swiper.previousIndex].childNodes[2];
+            prevBar.style.width = 0 + '%';
+          }
+          clearInterval(this.currInterval);
+          this.currInterval = null
+          let bar = this.swiper.pagination.bullets[this.currIndex].childNodes[2];
+          let speed = this.storyData[this.currIndex].duration / 100;
+          let vm = this;
+          this.currInterval = setInterval(grow, speed);
+          function grow() {
+            if (vm.currProgress == 100) {
+              bar.style.width = 0 + '%';
+              return;
+            }else {
+              vm.currProgress ++;
+              bar.style.width = vm.currProgress + '%';
+            }
+          }
+        }
+      },
+      computed: {
+        realSwiper() {
+          return this.$refs.swiper.$swiper;
+        }
+      },
+      created() {
+        this.getData();
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>

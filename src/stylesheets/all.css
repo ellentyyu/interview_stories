@@ -1,0 +1,196 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Microsoft JhengHei", "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  text-decoration: none;
+  display: block;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, span, label, li {
+  line-height: 1.3;
+}
+
+*, *::before, *::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  cursor: pointer;
+}
+
+.container {
+  background-color: #303030;
+  text-align: center;
+}
+
+.swiper-outer-custom {
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width: 576px) {
+  .swiper-outer-custom {
+    width: 100%;
+  }
+}
+
+.bg-cover {
+  background-size: cover;
+  background-position: center center;
+}
+
+.swiper {
+  width: calc(100vh * 9 / 16);
+  height: 100vh;
+}
+
+@media (max-width: 576px) {
+  .swiper {
+    width: 100%;
+  }
+}
+
+.swiper-slide .story-text-wrap {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  padding: 60px 30px;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0.8)));
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
+}
+
+.swiper-slide .story-text-wrap .story-text {
+  color: white;
+  padding: 16px;
+}
+
+.swiper-button-prev, .swiper-rtl .swiper-button-next, .swiper-button-next {
+  background-color: #fff;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50%;
+}
+
+.swiper-button-prev::after, .swiper-rtl .swiper-button-next::after, .swiper-button-next::after {
+  color: #333;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+
+.swiper-button-next.swiper-button-disabled {
+  opacity: 1;
+  background-color: rgba(181, 181, 181, 0.815);
+  pointer-events: all;
+}
+
+.swiper-button-next.swiper-button-disabled .fa-redo {
+  color: white;
+}
+
+.swiper-button-next.swiper-button-disabled::after {
+  content: '';
+}
+
+.swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+  top: 6px;
+  bottom: auto;
+}
+
+.swiper-pagination-bullet {
+  position: relative;
+  width: 35px;
+  height: auto;
+  border-radius: 2px;
+  background-color: transparent;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet .progress-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background-color: rgba(228, 228, 228, 0.6);
+}
+
+.swiper-pagination-bullet .progress-grow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2.5px;
+  background-color: white;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: transparent;
+}
+/*# sourceMappingURL=all.css.map */
